@@ -1,0 +1,20 @@
+#!/bin/sh
+echo "Startup script initializing."
+
+# Some helpful information while starting the container
+test "$PROJECT_ROOT" && echo "Project root -> '$PROJECT_ROOT'"
+test "$APP_ENV" && echo "Application environment -> '$APP_ENV'"
+test "$APP_DEBUG" && echo "Application debug -> '$APP_DEBUG'"
+test "$LOG_LEVEL" && echo "Application logging level -> '$LOG_LEVEL'"
+
+# Below is copied from the original entrypoint.
+set -e
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+  test "$1" && echo "arg -> '$1'"
+	set -- php "$@"
+fi
+
+echo "Script to execute -> '$@'"
+exec "$@"
